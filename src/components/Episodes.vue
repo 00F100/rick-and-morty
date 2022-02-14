@@ -1,17 +1,21 @@
 <template>
   <div class="q-pa-md">
+    <ButtonBackToList />
+    <div class="row justify-center">
+      <h1>Episodes</h1>
+    </div>
     <div class="row justify-center items-start q-gutter-md">
-      <q-card class="character-card" @click="changePage(20)" v-for="index in 12" :key="index">
+      <q-card class="character-card" @click="changePage(20)" v-for="index in 20" :key="index">
         <q-card-section>
           <div class="row">
             <div class="col">
-              <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" class="character-image" alt="">
+              <img :src="getImage(index)" class="character-image" alt="" height="300" width="533">
             </div>
           </div>
           <div class="row">
             <div class="col-10">
-              <p class="name">Rick Sanchez</p>
-              <small>Human - Earth (C-137)</small>
+              <p class="name">Pilot</p>
+              <small>December 2, 2013</small>
             </div>
             <div class="col-2">
               <div class="row">
@@ -36,14 +40,25 @@
 </template>
 
 <script>
+import ButtonBackToList from "./ButtonBackToList.vue"
+
 export default {
-  name: "List",
+  name: "Episodes",
+  components: {
+    ButtonBackToList
+  },
   methods: {
-    changePage(character) {
+    changePage(episode) {
       this.$store.commit("changePage", {
-        page: "character",
-        id: character
+        page: "episode",
+        id: episode
       })
+    },
+    getImage(index) {
+      if(index < 10) {
+        index = "0" + index
+      }
+      return "https://videovak.com/jpg/1178x662/rick_and_morty_s01e" + index + ".jpg"
     }
   }
 };
@@ -79,5 +94,9 @@ export default {
   .character-image {
     width: 220px;
   }
+}
+
+.character-image {
+  max-height: 300px;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div class="q-pa-md">
+    <ButtonBackToList />
       <div class="row justify-center">
         <h1>Pilot</h1>
       </div>
@@ -24,7 +25,6 @@
             </div>
           </div>
         </div>
-        <ButtonBackToList />
       </div>
     </div>
 </template>

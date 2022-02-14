@@ -4,18 +4,21 @@
       <Toolbar />
     </q-header>
     <q-page-container>
-      <List v-if="this.$store.state.page == 'list'" />
-      <Character v-if="this.$store.state.page == 'character'" />
-      <Episode v-if="this.$store.state.page == 'episode'" />
+      <router-view></router-view>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
+// <Characters v-if="this.$store.state.page == 'characters'" />
+//       <Episodes v-if="this.$store.state.page == 'episodes'" />
+//       <Character v-if="this.$store.state.page == 'character'" />
+//       <Episode v-if="this.$store.state.page == 'episode'" />
 import { ref } from "vue";
-import List from "./components/List.vue";
-import Character from "./components/Character.vue";
-import Episode from "./components/Episode.vue";
+// import Characters from "./components/Characters.vue"
+// import Character from "./components/Character.vue"
+// import Episodes from "./components/Episodes.vue"
+// import Episode from "./components/Episode.vue"
 import Toolbar from "./components/Toolbar.vue"
 
 export default {
@@ -23,9 +26,10 @@ export default {
 
   components: {
     Toolbar,
-    List,
-    Character,
-    Episode,
+    // Characters,
+    // Character,
+    // Episodes,
+    // Episode,
   },
 
   setup() {
