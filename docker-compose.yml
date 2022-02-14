@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  vue-dev:
+    image: rick/vue
+    build:
+      context: docker/vue
+    command: npm run serve
+    ports:
+      - "3000:3000"
+    volumes:
+      - ".:/var/www/frontend"
+    environment:
+      - PORT=3000
