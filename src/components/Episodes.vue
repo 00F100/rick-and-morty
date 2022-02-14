@@ -4,8 +4,17 @@
     <div class="row justify-center">
       <h1>Episodes</h1>
     </div>
+    <div class="row"> 
+      <div class="col">
+        <q-input filled v-model="filter" label="Filter" class="input-filter">
+            <template v-if="filter" v-slot:append>
+              <q-icon name="cancel" @click.stop="filter = null" class="cursor-pointer cancel-filter" />
+            </template>
+          </q-input>
+      </div>
+    </div>
     <div class="row justify-center items-start q-gutter-md">
-      <q-card class="character-card" @click="changePage(20)" v-for="index in 20" :key="index">
+      <q-card class="character-card" @click="seeEpisode('S01E02')" v-for="index in 20" :key="index">
         <q-card-section>
           <div class="row">
             <div class="col">
@@ -14,7 +23,7 @@
           </div>
           <div class="row">
             <div class="col-10">
-              <p class="name">Pilot</p>
+              <p class="name">S01E01 - Pilot</p>
               <small>December 2, 2013</small>
             </div>
             <div class="col-2">
@@ -48,9 +57,9 @@ export default {
     ButtonBackToList
   },
   methods: {
-    changePage(episode) {
+    seeEpisode(episode) {
       this.$store.commit("changePage", {
-        page: "episode",
+        page: '/episodes/' + episode,
         id: episode
       })
     },
@@ -59,6 +68,11 @@ export default {
         index = "0" + index
       }
       return "https://videovak.com/jpg/1178x662/rick_and_morty_s01e" + index + ".jpg"
+    }
+  },
+  data() {
+    return {
+      filter: null
     }
   }
 };
@@ -84,6 +98,12 @@ export default {
 .name {
   margin: 0;
   font-size: 1.3rem;
+}
+.cancel-filter {
+  font-size: 1.6rem;
+}
+.input-filter {
+  padding: 0 10% 30px 10%;
 }
 @media (max-width: $breakpoint-xs-max) {
   .character-image {

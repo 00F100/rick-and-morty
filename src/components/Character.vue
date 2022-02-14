@@ -24,7 +24,7 @@
           <div class="col-xs-12 col-sm-6">
             Episodes
             <ul v-for="index in 10" :key="index">
-              <li><a href="javascript:;" @click="changePage(20)">Pilot</a></li>
+              <li><a href="javascript:;" @click="seeEpisode('S01E01')">Pilot</a></li>
             </ul>
           </div>
         </div>
@@ -43,9 +43,9 @@ export default {
     ButtonBackToList
   },
   methods: {
-    changePage(episode) {
+    seeEpisode(episode) {
       this.$store.commit("changePage", {
-        page: "episode",
+        page: "/episodes/" + episode,
         id: episode
       })
     }

@@ -12,33 +12,52 @@ import { createRouter, createWebHashHistory } from "vue-router"
 import "@quasar/extras/material-icons/material-icons.css";
 import "./styles/quasar.sass";
 
-const store = createStore({
-  state: {
-    page: "characters",
-    loading: false,
-    current: null,
-  },
-  mutations: {
-    changePage(state, payload) {
-      state.page = payload.page
-      state.current = payload.id
-      window.scrollTo(0,0)
-    }
-  }
-})
-
 const routes = [
   { path: '/', redirect: '/characters' },
   { path: '/characters', component: Characters },
   { path: '/characters/:id', component: Character },
   { path: '/episodes', component: Episodes },
-  { path: '/episodes/:id', component: Episode },
+  { path: '/episodes/:episode', component: Episode },
 ]
 
 const router = createRouter({
-  // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHashHistory(),
-  routes, // short for `routes: routes`
+  routes,
+})
+
+let currentPage = "characters"
+let currentId = null
+let currentLoading = false
+
+const currentUrl = window.location.href
+const hash = currentUrl.split("#")
+if (hash.length == 2) {
+  currentPage = "/" + hash[1].substr(1)
+  if (currentPage.indexOf("/") > -1) {
+    const partial = currentPage.split("/")
+    currentId = partial[1]
+  }
+  currentLoading = true
+}
+
+const store = createStore({
+  state: {
+    page: currentPage,
+    loading: currentLoading,
+    current: currentId,
+  },
+  mutations: {
+    changePage(state, payload) {
+      state.page = payload.page
+      state.current = payload.id
+      state.loading = true
+      window.scrollTo(0,0)
+      router.push(payload.page)
+    },
+    finishLoader(state) {
+      state.loading = false
+    }
+  }
 })
 
 createApp(App)

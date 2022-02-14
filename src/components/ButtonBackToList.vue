@@ -1,9 +1,9 @@
 <template>
     <div class="col-12">
-      <router-link to="/characters" v-if="this.$store.state.page != 'characters'">
+      <router-link to="/characters" v-if="this.$store.state.page != '/characters'">
         <q-btn color="white" text-color="black" label="Characters List" @click="changePageCharacters" />
       </router-link>
-      <router-link to="/episodes" v-if="this.$store.state.page != 'episodes'">
+      <router-link to="/episodes" v-if="this.$store.state.page != '/episodes'">
         <q-btn color="white" text-color="black" label="Episodes List" @click="changePageEpisodes" />
       </router-link>
     </div>
@@ -15,12 +15,12 @@ export default {
   methods: {
     changePageCharacters() {
       this.$store.commit("changePage", {
-        page: "characters",
+        page: "/characters",
       })
     },
     changePageEpisodes() {
       this.$store.commit("changePage", {
-        page: "episodes",
+        page: "/episodes",
       })
     }
   }

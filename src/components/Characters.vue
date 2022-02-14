@@ -1,11 +1,22 @@
 <template>
   <div class="q-pa-md">
-    <ButtonBackToList />
+    <div class="row">
+      <ButtonBackToList />
+    </div>
     <div class="row justify-center">
       <h1>Characters</h1>
     </div>
+    <div class="row"> 
+      <div class="col">
+        <q-input filled v-model="filter" label="Filter" class="input-filter">
+            <template v-if="filter" v-slot:append>
+              <q-icon name="cancel" @click.stop="filter = null" class="cursor-pointer cancel-filter" />
+            </template>
+          </q-input>
+      </div>
+    </div>
     <div class="row justify-center items-start q-gutter-md">
-      <q-card class="character-card" @click="changePage(20)" v-for="index in 20" :key="index">
+      <q-card class="character-card" @click="seeCharacter('1')" v-for="index in 20" :key="index">
         <q-card-section>
           <div class="row">
             <div class="col">
@@ -47,10 +58,15 @@ export default {
   components: {
     ButtonBackToList
   },
+  data() {
+    return {
+      filter: null
+    }
+  },
   methods: {
-    changePage(character) {
+    seeCharacter(character) {
       this.$store.commit("changePage", {
-        page: "character",
+        page: "/characters/" + character,
         id: character
       })
     }
@@ -78,6 +94,12 @@ export default {
 .name {
   margin: 0;
   font-size: 1.3rem;
+}
+.cancel-filter {
+  font-size: 1.6rem;
+}
+.input-filter {
+  padding: 0 10% 30px 10%;
 }
 @media (max-width: $breakpoint-xs-max) {
   .character-image {

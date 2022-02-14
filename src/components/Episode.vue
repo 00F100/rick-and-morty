@@ -20,7 +20,7 @@
             <div class="col-xs-12 col-sm-6">
               Characters
               <ul v-for="index in 10" :key="index">
-                <li><a href="javascript:;" @click="changePage(20)">Rick Sanchez</a></li>
+                <li><a href="javascript:;" @click="seeCharacter('1')">Rick Sanchez</a></li>
               </ul>
             </div>
           </div>
@@ -39,9 +39,9 @@ export default {
     ButtonBackToList
   },
   methods: {
-    changePage(character) {
+    seeCharacter(character) {
       this.$store.commit("changePage", {
-        page: "character",
+        page: "/characters/" + character,
         id: character
       })
     }

@@ -1,6 +1,6 @@
 <template>
     <q-toolbar>
-      <q-toolbar-title @click="changePage"> Rick and Morty </q-toolbar-title>
+      <q-toolbar-title @click="$router.push('/')"> Rick and Morty </q-toolbar-title>
       <q-select v-model="model" :options="options" label="Language" />
     </q-toolbar>
 </template>
@@ -14,13 +14,6 @@ export default {
     return {
       model: "English",
       options: ["English", "Português"]
-    }
-  },
-  methods: {
-    changePage() {
-      this.$store.commit("changePage", {
-        page: "list",
-      })
     }
   }
 };
