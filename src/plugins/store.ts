@@ -3,17 +3,17 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     page: "",
-    loading: false,
+    loading: true,
     current: null,
   },
   mutations: {
     changePage(state, payload) {
       state.page = payload.page.fullPath
       state.current = payload.id
-      state.loading = false
+      state.loading = true
     },
-    finishLoader(state) {
-      state.loading = false
+    loading(state, active) {
+      state.loading = active
     }
   }
 })

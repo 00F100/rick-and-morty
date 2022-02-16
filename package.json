@@ -10,8 +10,12 @@
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
+    "@apollo/client": "^3.5.9",
     "@quasar/extras": "^1.0.0",
+    "@vue/apollo-composable": "^4.0.0-alpha.16",
     "core-js": "^3.6.5",
+    "graphql": "^16.3.0",
+    "graphql-tag": "^2.12.6",
     "quasar": "^2.0.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.0",
