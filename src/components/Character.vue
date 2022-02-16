@@ -2,14 +2,10 @@
   <div class="q-pa-md">
     <ButtonBackToList />
     <div class="row justify-center">
-      <h1>{{ $t('Rick Sanches') }}</h1>
-    </div>
-    <div class="row justify-center">
-      <div class="col image-block">
+      <div class="col-md-6 image-block">
+        <h4>{{ $t('Character information') }}</h4>
         <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg">
-      </div>
-      <div class="col">
-        <h4>{{ $t('who-is-name', {name: 'Rick Sanches'}) }}</h4>
+        <h3>{{ $t('Rick Sanchez') }}</h3>
         <ul>
             <li>{{ $t('state', { state: $t('Alive') }) }}</li>
             <li>{{ $t('species', { specie: $t('Human') }) }}</li>
@@ -18,14 +14,16 @@
             <li>{{ $t('location', { location: $t('Citadel of Ricks') }) }}</li>
         </ul>
       </div>
-      <div class="col">
+      <div class="col-md-6 episodes">
         <h4>{{ $t('Episodes') }}</h4>
-        <div v-for="index in 20" :key="index">
-          <EpisodeCard
-            :episode="index"
-            :route="'/episodes/' + index"
-            :title="$t('episode-name', { identify: 'S01E01', name: $t('Pilot') })"
-            :description="$t('episode-date', { month: $t('December'), day: '2', year: '2013' })" />
+        <div class="row">
+          <div class="col-md-4" v-for="index in 20" :key="index">
+            <EpisodeCard
+              :episode="index"
+              :route="'/episodes/' + index"
+              :title="$t('episode-name', { identify: 'S01E01', name: $t('Pilot') })"
+              :description="$t('episode-date', { month: $t('December'), day: '2', year: '2013' })" />
+          </div>
         </div>
       </div>
     </div>
@@ -45,3 +43,18 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.image-block {
+  text-align: center;
+
+  img {
+    height: 400px;
+  }
+}
+.episodes {
+  h4 {
+    text-align: center;
+  }
+}
+</style>

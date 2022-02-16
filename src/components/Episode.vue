@@ -1,52 +1,58 @@
 <template>
-    <div class="q-pa-md">
+  <div class="q-pa-md">
     <ButtonBackToList />
-      <div class="row justify-center">
-        <h1>Pilot</h1>
-      </div>
-      <div class="row justify-center">
-        <div class="col-xs-12 col-sm-7 col-md-4">
-          <img src="https://videovak.com/jpg/1178x662/rick_and_morty_s01e01.jpg" class="episode-image" alt="">
-        </div>
-        <div class="col-xs-12 col-sm-5 col-md-8">
-          <div class="row">
-            <div class="col-xs-12 col-sm-6">
-              Episode information
-              <ul>
-                  <li>episode: S01E01</li>
-                  <li>Air date: December 2, 2013</li>
-              </ul>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              Characters
-              <ul v-for="index in 10" :key="index">
-                <li>
-                  <router-link :to="'/characters/' + index">
-                    Rick Sanchez
-                  </router-link>
-                </li>
-              </ul>
-            </div>
+    <div class="row justify-center">
+      <div class="col-md-6 characters">
+        <h4>{{ $t('Characters') }}</h4>
+        <div class="row">
+          <div class="col-md-4" v-for="index in 20" :key="index">
+            <Card
+                :alive="true"
+                image="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+                :route="'/characters/' + index"
+                :title="$t('Rick Sanchez')"
+                :description="$t('Human - Earth (C-137)')" />
           </div>
         </div>
       </div>
+      <div class="col-md-6 image-block">
+        <h4>{{ $t('Episode information') }}</h4>
+        <img src="https://videovak.com/jpg/1178x662/rick_and_morty_s01e01.jpg">
+        <h3>{{ $t('Pilot') }}</h3>
+        <ul>
+            <li>{{ $t('episode-name', { identify: 'S01E01', name: $t('Pilot') }) }}</li>
+            <li>{{ $t('episode-date', { month: $t('December'), day: '2', year: '2013' }) }}</li>
+        </ul>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 
 import ButtonBackToList from "./ButtonBackToList.vue"
+import Card from "./Card.vue"
 
 export default {
   name: "Episode",
   components: {
-    ButtonBackToList
+    ButtonBackToList,
+    Card
   }
 };
 </script>
 
 <style scoped lang="scss">
-.episode-image {
-  max-width: 320px;
+.image-block {
+  text-align: center;
+
+  img {
+    width: 600px
+  }
+}
+.characters {
+  h4 {
+    text-align: center;
+  }
 }
 </style>

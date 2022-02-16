@@ -1,6 +1,6 @@
 <template>
     <q-toolbar>
-      <q-toolbar-title @click="$router.push('/')"> Rick and Morty </q-toolbar-title>
+      <q-toolbar-title @click="$router.push('/')"> {{ $t('Rick and Morty') }} </q-toolbar-title>
       <q-select v-model="model" :options="options" />
     </q-toolbar>
 </template>
@@ -13,7 +13,21 @@ export default {
   data() {
     return {
       model: "English",
-      options: ["English", "Português"]
+      options: [
+        {
+          label: "English",
+          value: "en"
+        },
+        {
+          label: "Português",
+          value: "pt-BR"
+        }
+      ]
+    }
+  },
+  watch: {
+    model() {
+      this.$i18n.locale = this.model.value
     }
   }
 };

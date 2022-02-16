@@ -11,7 +11,7 @@
             <p class="name">{{ title }}</p>
             <small>{{ description }}</small>
           </div>
-          <div class="col-4" v-if="alive || dead">
+          <div class="col-2" v-if="alive || dead">
             <div class="row">
               <div class="col-12">
                 <q-icon name="emoji_people" class="float-right" v-if="alive" />
@@ -32,6 +32,8 @@
 export default {
   name: "EpisodeCard",
   props: [
+    "alive",
+    "dead",
     "image",
     "route",
     "title",

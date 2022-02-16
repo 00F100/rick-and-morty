@@ -11,9 +11,9 @@
     </div>
     <div class="row">
       <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="index in 20" :key="index">
-        <CharacterCard
+        <Card
+          :alive="true"
           image="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-          :episode="index"
           :route="'/characters/' + index"
           :title="$t('Rick Sanchez')"
           :description="$t('Human - Earth (C-137)')" />
@@ -28,14 +28,14 @@
 <script>
 import ButtonBackToList from "./ButtonBackToList.vue"
 import Filter from "./Filter.vue"
-import CharacterCard from "./CharacterCard.vue"
+import Card from "./Card.vue"
 
 export default {
   name: "Characters",
   components: {
     ButtonBackToList,
     Filter,
-    CharacterCard
+    Card
   },
   data() {
     return {
