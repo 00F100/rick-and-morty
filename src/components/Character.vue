@@ -2,31 +2,30 @@
   <div class="q-pa-md">
     <ButtonBackToList />
     <div class="row justify-center">
-      <h1>Rick Sanches</h1>
+      <h1>{{ $t('Rick Sanches') }}</h1>
     </div>
     <div class="row justify-center">
-      <div class="col-xs-12 col-sm-7 col-md-4">
-        <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="">
+      <div class="col image-block">
+        <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg">
       </div>
-      <div class="col-xs-12 col-sm-5 col-md-8">
-        <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            Who is Rick Sanches?
-            <ul>
-                <li>Status: Alive</li>
-                <li>Species: Human</li>
-                <li>Gender: Male</li>
-                <li>Status: Alive</li>
-                <li>Origin: unknown</li>
-                <li>Location: Citadel of Ricks</li>
-            </ul>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            Episodes
-            <ul v-for="index in 10" :key="index">
-              <li><a href="javascript:;" @click="seeEpisode('S01E01')">Pilot</a></li>
-            </ul>
-          </div>
+      <div class="col">
+        <h4>{{ $t('who-is-name', {name: 'Rick Sanches'}) }}</h4>
+        <ul>
+            <li>{{ $t('state', { state: $t('Alive') }) }}</li>
+            <li>{{ $t('species', { specie: $t('Human') }) }}</li>
+            <li>{{ $t('gender', { gender: $t('Male') }) }}</li>
+            <li>{{ $t('origin', { origin: $t('unknown') }) }}</li>
+            <li>{{ $t('location', { location: $t('Citadel of Ricks') }) }}</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>{{ $t('Episodes') }}</h4>
+        <div v-for="index in 20" :key="index">
+          <EpisodeCard
+            :episode="index"
+            :route="'/episodes/' + index"
+            :title="$t('episode-name', { identify: 'S01E01', name: $t('Pilot') })"
+            :description="$t('episode-date', { month: $t('December'), day: '2', year: '2013' })" />
         </div>
       </div>
     </div>
@@ -36,25 +35,13 @@
 <script>
 
 import ButtonBackToList from "./ButtonBackToList.vue"
+import EpisodeCard from "./EpisodeCard"
 
 export default {
   name: "Character",
   components: {
-    ButtonBackToList
+    ButtonBackToList,
+    EpisodeCard
   },
-  methods: {
-    seeEpisode(episode) {
-      this.$store.commit("changePage", {
-        page: "/episodes/" + episode,
-        id: episode
-      })
-    }
-  }
 };
 </script>
-
-<style scoped lang="scss">
-.my-card {
-  cursor: pointer;
-}
-</style>

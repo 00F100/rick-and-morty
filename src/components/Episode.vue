@@ -20,7 +20,11 @@
             <div class="col-xs-12 col-sm-6">
               Characters
               <ul v-for="index in 10" :key="index">
-                <li><a href="javascript:;" @click="seeCharacter('1')">Rick Sanchez</a></li>
+                <li>
+                  <router-link :to="'/characters/' + index">
+                    Rick Sanchez
+                  </router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -37,22 +41,11 @@ export default {
   name: "Episode",
   components: {
     ButtonBackToList
-  },
-  methods: {
-    seeCharacter(character) {
-      this.$store.commit("changePage", {
-        page: "/characters/" + character,
-        id: character
-      })
-    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.my-card {
-  cursor: pointer;
-}
 .episode-image {
   max-width: 320px;
 }

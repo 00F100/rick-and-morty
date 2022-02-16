@@ -2,87 +2,50 @@
   <div class="q-pa-md">
     <ButtonBackToList />
     <div class="row justify-center">
-      <h1>Episodes</h1>
+      <h1>{{ $t('Episodes') }}</h1>
     </div>
     <div class="row"> 
       <div class="col">
-        <q-input filled v-model="filter" label="Filter" class="input-filter">
-            <template v-if="filter" v-slot:append>
-              <q-icon name="cancel" @click.stop="filter = null" class="cursor-pointer cancel-filter" />
-            </template>
-          </q-input>
+        <Filter />
       </div>
     </div>
-    <div class="row justify-center items-start q-gutter-md">
-      <q-card class="character-card" @click="seeEpisode('S01E02')" v-for="index in 20" :key="index">
-        <q-card-section>
-          <div class="row">
-            <div class="col">
-              <img :src="getImage(index)" class="character-image" alt="" height="300" width="533">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-10">
-              <p class="name">S01E01 - Pilot</p>
-              <small>December 2, 2013</small>
-            </div>
-            <div class="col-2">
-              <div class="row">
-                <div class="col-12">
-                  <q-icon name="emoji_people" class="float-right" />
-                  <!-- <q-icon name="portrait" class="float-right" /> -->
-                </div>
-                <div class="col-12">
-                  <!-- <small class="float-right state">in memoriam</small> -->
-                  <small class="float-right state">alive</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
+    <div class="row">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-for="index in 20" :key="index">
+        <EpisodeCard
+          :episode="index"
+          :route="'/episodes/' + index"
+          :title="$t('episode-name', { identify: 'S01E01', name: $t('Pilot') })"
+          :description="$t('episode-date', { month: $t('December'), day: '2', year: '2013' })" />
+      </div>
     </div>
     <div class="row justify-center show-more">
-      <q-btn color="white" text-color="black" label="Show more" />
+      <q-btn color="white" text-color="black" :label="$t('Show more')" />
     </div>
   </div>
 </template>
 
 <script>
 import ButtonBackToList from "./ButtonBackToList.vue"
+import EpisodeCard from "./EpisodeCard"
+import Filter from "./Filter.vue"
 
 export default {
   name: "Episodes",
   components: {
-    ButtonBackToList
-  },
-  methods: {
-    seeEpisode(episode) {
-      this.$store.commit("changePage", {
-        page: '/episodes/' + episode,
-        id: episode
-      })
-    },
-    getImage(index) {
-      if(index < 10) {
-        index = "0" + index
-      }
-      return "https://videovak.com/jpg/1178x662/rick_and_morty_s01e" + index + ".jpg"
-    }
+    ButtonBackToList,
+    EpisodeCard,
+    Filter
   },
   data() {
     return {
       filter: null
     }
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @import '../styles/quasar.variables.sass';
-.character-card {
-  cursor: pointer;
-}
 .show-more {
   margin: 30px 0 20px 0
 }
@@ -91,32 +54,5 @@ export default {
 }
 .q-icon {
   margin: 5px 5px 0 0;
-}
-.q-card__section {
-  padding: 16px 16px 10px 16px;
-}
-.name {
-  margin: 0;
-  font-size: 1.3rem;
-}
-.cancel-filter {
-  font-size: 1.6rem;
-}
-.input-filter {
-  padding: 0 10% 30px 10%;
-}
-@media (max-width: $breakpoint-xs-max) {
-  .character-image {
-    width: inherit;
-  }
-}
-@media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-sm-max) {
-  .character-image {
-    width: 220px;
-  }
-}
-
-.character-image {
-  max-height: 300px;
 }
 </style>

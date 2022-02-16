@@ -1,5 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
+    <Loader v-if="$store.state.loading" />
     <q-header elevated class="glossy">
       <Toolbar />
     </q-header>
@@ -10,24 +11,26 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import Toolbar from "./components/Toolbar.vue"
+import Loader from "./components/Loader.vue"
 
 export default {
   name: "LayoutDefault",
 
   components: {
     Toolbar,
+    Loader
   },
-
-  setup() {
-    return {
-      leftDrawerOpen: ref(false),
-    };
-  },
-  data() {
-    return {
-      list: true
+  watch: {
+    '$route'(to) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+      this.$store.commit("changePage", {
+        page: to,
+        id: to.params?.id
+      })
     }
   }
 };
