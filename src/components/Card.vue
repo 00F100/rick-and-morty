@@ -11,7 +11,7 @@
             <p class="name">{{ title }}</p>
             <small>{{ description }}</small>
           </div>
-          <div class="col-2" v-if="alive || dead">
+          <div class="col-2 icon-block" v-if="alive || dead">
             <div class="row">
               <div class="col-12">
                 <q-icon name="emoji_people" class="float-right" v-if="alive" />
@@ -68,5 +68,14 @@ export default {
 .name {
   margin: 0;
   font-size: 1.3rem;
+}
+.q-icon {
+  margin: 0 25%;
+}
+.state {
+  margin: 0 30%;
+}
+.icon-block {
+  margin-top: 8px;
 }
 </style>
