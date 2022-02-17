@@ -9,17 +9,7 @@ import graphql from "./plugins/graphql"
 import "@quasar/extras/material-icons/material-icons.css";
 import "./styles/quasar.sass";
 
-
-
-createApp(
-  App
-    // {
-    //   setup () {
-    //     provide(DefaultApolloClient, apolloClient)
-    //   },
-    //   render: () => h(App)
-    // }
-  )
+createApp(App)
   .use(i18n)
   .use(Quasar, {
       config: {},

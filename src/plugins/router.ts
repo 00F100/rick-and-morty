@@ -7,7 +7,7 @@ import Episode from "../components/Episode.vue"
 const routes = [
   { path: '/', redirect: '/characters' },
   { path: '/characters', component: Characters },
-  { path: '/characters/:id', component: Character },
+  { path: '/characters/:id/:name', component: Character },
   { path: '/episodes', component: Episodes },
   { path: '/episodes/:id', component: Episode },
 ]

@@ -55,6 +55,7 @@ export default {
 .character-card {
   cursor: pointer;
   margin: 10px;
+  min-height: 320px;
 }
 .image-block {
   text-align: center;
@@ -78,4 +79,14 @@ export default {
 .icon-block {
   margin-top: 8px;
 }
+// @media (max-width: $breakpoint-xs-max) {
+//   .character-card {
+//     height: 400px;
+//   }
+// }
+// @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-sm-max) {
+//   .character-card {
+//     height: 350px;
+//   }
+// }
 </style>

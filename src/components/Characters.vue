@@ -17,8 +17,8 @@
         <Card
           :alive="true"
           :image="character.image"
-          :route="'/characters/' + character.name"
-          :title="$t(character.name)"
+          :route="'/characters/' + character.id + '/' + character.name"
+          :title="character.name"
           :description="$t(character.species)" />
       </div>
     </div>
@@ -32,9 +32,7 @@
 import ButtonBackToList from "./ButtonBackToList.vue"
 import Filter from "./Filter.vue"
 import Card from "./Card.vue"
-
-import gql from 'graphql-tag'
-// import { useQuery } from '@vue/apollo-composable'
+import gql from "graphql-tag"
 
 export default {
   name: "Characters",
@@ -61,9 +59,17 @@ export default {
     paginate() {
       this.disabled = true
       this.page = this.page + 1
-      this.updateData()
+      this.updateData(true)
     },
-    updateData() {
+    updateData(ignoreCache = false) {
+      const cache = this.$store.state.characters
+      if (!ignoreCache && cache.result && cache.result.length > 0) {
+        this.result = cache.result
+        this.page = cache.page
+        this.pages = cache.pages
+        this.loading = false
+        return
+      }
 
       const CHARACTERS_QUERY = gql`
         query Characters($page: Int) {
@@ -86,6 +92,11 @@ export default {
       }, (result) => {
         console.log(result.data.characters)
         this.result = [ ... this.result, ... result.data.characters.results]
+        this.$store.commit("cacheCaracter", {
+          result: this.result,
+          page: this.page,
+          pages: this.pages
+        })
         this.pages = result.data.characters.info.pages || 1
         this.loading = false
         this.disabled = false
@@ -95,12 +106,6 @@ export default {
           this.pagination = true
         }
       });
-      // this.$graphql('okok')
-      // const { result, loading, error } = useQuery(CHARACTERS_QUERY, {
-      //   page: this.page
-      // });
-      // this.loading = loading
-      // this.result = result
     }
   },
   watch: {
@@ -108,29 +113,6 @@ export default {
       this.$store.commit("loading", this.loading)
     }
   }
-  // setup() {
-  //   const CHARACTERS_QUERY = gql`
-  //     query Characters($page: Int) {
-  //       characters(page: $page) {
-  //         results {
-  //           id
-  //           name
-  //           image,
-  //           species
-  //         }
-  //       }
-  //     }
-  //   `
-  //   const { result, loading, error } = useQuery(CHARACTERS_QUERY, {
-  //     page: 1
-  //   });
-    
-  //   return {
-  //     result,
-  //     loading,
-  //     error
-  //   }
-  // },
 };
 </script>
 

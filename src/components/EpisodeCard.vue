@@ -1,6 +1,6 @@
 <template>
     <Card
-      :image="getImage(episode)"
+      :image="imageUrl"
       :route="route"
       :title="title"
       :description="description" />
@@ -8,6 +8,7 @@
 
 <script>
 import Card from "./Card.vue"
+import * as imageExists from "image-exists"
 
 export default {
   name: "EpisodeCard",
@@ -20,13 +21,28 @@ export default {
     "title",
     "description"
   ],
-  methods: {
-    getImage(index) {
-      if(+index < 10) {
-        index = "0" + index
-      }
-      return "https://videovak.com/jpg/1178x662/rick_and_morty_s01e" + index + ".jpg"
+  data() {
+    return {
+      imageUrl: "https://via.placeholder.com/248x140"
     }
   },
+  watch: {
+    episode() {
+      this.checkImage()
+    }
+  },
+  mounted() {
+    this.checkImage()
+  },
+  methods: {
+    checkImage() {
+      const imageUrl = "https://videovak.com/jpg/1178x662/rick_and_morty_" + String(this.episode).toLowerCase() + ".jpg"
+      imageExists(imageUrl, (exists) => {
+        if (exists) {
+          this.imageUrl = imageUrl
+        }
+      })
+    }
+  }
 };
 </script>
