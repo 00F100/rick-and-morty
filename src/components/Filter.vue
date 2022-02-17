@@ -10,10 +10,27 @@
 export default {
   name: "Filter",
   props: [
+    "text_search"
   ],
   data() {
     return {
-      filter: null
+      filter: null,
+      timeout: null
+    }
+  },
+  created() {
+    if (this.text_search) {
+      this.filter = this.text_search
+    }
+  },
+  watch: {
+    filter() {
+      if (this.timeout) {
+        clearTimeout(this.timeout)
+      }
+      this.timeout = setTimeout(() => {
+        this.$store.commit("filter", this.filter)
+      }, +process.env.VUE_APP_TIMEOUT_FILTER)
     }
   }
 }

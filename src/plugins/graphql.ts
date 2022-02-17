@@ -21,6 +21,7 @@
       })
       .catch((e: any) => {
         console.log(e)
+        callback([])
       })
     }
   }

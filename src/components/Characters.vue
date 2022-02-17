@@ -6,7 +6,7 @@
     </div>
     <div class="row"> 
       <div class="col">
-        <Filter />
+        <Filter :text_search="filter" />
       </div>
     </div>
     <div class="row" v-if="!loading">
@@ -22,7 +22,7 @@
           :description="$t(character.species)" />
       </div>
     </div>
-    <div class="row justify-center show-more" v-if="pagination">
+    <div class="row justify-center show-more" v-if="page < pages">
       <q-btn color="white" text-color="black" :label="$t('Show more')" @click="paginate" :disabled="disabled" />
     </div>
   </div>
@@ -45,23 +45,29 @@ export default {
     return {
       page: 1,
       pages: 1,
-      pagination: true,
       loading: true,
       disabled: false,
       result: [],
       filter: null
     }
   },
-  mounted() {
+  beforeCreate() {
+    if (this.$store.state.paginate) {
+      this.page = this.$store.state.paginate.page
+      this.pages = this.$store.state.paginate.pages
+    }
+  },
+  beforeMount() {
+    this.filter = this.$store.state.filter
     this.updateData()
   },
   methods: {
     paginate() {
       this.disabled = true
       this.page = this.page + 1
-      this.updateData(true)
+      this.updateData(true, true)
     },
-    updateData(ignoreCache = false) {
+    updateData(ignoreCache = false, aggregate = false) {
       const cache = this.$store.state.characters
       if (!ignoreCache && cache.result && cache.result.length > 0) {
         this.result = cache.result
@@ -72,8 +78,8 @@ export default {
       }
 
       const CHARACTERS_QUERY = gql`
-        query Characters($page: Int) {
-          characters(page: $page) {
+        query Characters($page: Int, $filter: String) {
+          characters(page: $page, filter: { name: $filter }) {
             info {
               pages
             }
@@ -88,22 +94,30 @@ export default {
       `
 
       this.$graphql(CHARACTERS_QUERY, {
-        page: this.page
+        page: this.page,
+        filter: this.filter
       }, (result) => {
-        console.log(result.data.characters)
-        this.result = [ ... this.result, ... result.data.characters.results]
-        this.$store.commit("cacheCaracter", {
-          result: this.result,
-          page: this.page,
-          pages: this.pages
-        })
-        this.pages = result.data.characters.info.pages || 1
-        this.loading = false
-        this.disabled = false
-        if (this.page >= this.pages) {
-          this.pagination = false
+        if (result.data) {
+          if (aggregate) {
+            this.result = [ ... this.result, ... result.data.characters.results]
+          } else {
+            this.result = result.data.characters.results
+          }
+          this.pages = result.data.characters.info.pages || 1
+          this.$store.commit("cacheCaracter", {
+            result: this.result,
+            page: this.page,
+            pages: this.pages
+          })
+          this.$store.commit("paginate", {
+            page: this.page,
+            pages: this.pages
+          })
+          this.loading = false
+          this.disabled = false
         } else {
-          this.pagination = true
+          this.result = null
+          this.loading = false
         }
       });
     }
@@ -111,7 +125,13 @@ export default {
   watch: {
     loading() {
       this.$store.commit("loading", this.loading)
-    }
+    },
+    '$store.state.filter'() {
+      this.filter = this.$store.state.filter
+      this.loading = true
+      this.page = 1
+      this.updateData(true, false)
+    },
   }
 };
 </script>

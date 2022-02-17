@@ -5,6 +5,8 @@ export default createStore({
     page: "",
     loading: true,
     current: null,
+    filter: null,
+    paginate: null,
     characters: [],
     episodes: []
   },
@@ -22,6 +24,12 @@ export default createStore({
     },
     cacheEpisode(state, data) {
       state.episodes = data
+    },
+    paginate(state, paginate) {
+      state.paginate = paginate
+    },
+    filter(state, data) {
+      state.filter = data
     }
   }
 })
