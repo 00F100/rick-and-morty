@@ -6,7 +6,7 @@
     </div>
     <div class="row"> 
       <div class="col">
-        <Filter />
+        <Filter :text_search="filter" />
       </div>
     </div>
     <div class="row">
@@ -38,6 +38,11 @@ export default {
   },
   data() {
     return {
+      page: 1,
+      pages: 1,
+      loading: true,
+      disabled: false,
+      result: [],
       filter: null
     }
   },

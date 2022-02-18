@@ -7,19 +7,21 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-10">
+          <div class="col-9">
             <p class="name">{{ title }}</p>
             <small>{{ description }}</small>
           </div>
-          <div class="col-2 icon-block" v-if="alive || dead">
+          <div class="col-3 icon-block">
             <div class="row">
               <div class="col-12">
                 <q-icon name="emoji_people" class="float-right" v-if="alive" />
                 <q-icon name="portrait" class="float-right" v-if="dead" />
+                <q-icon name="help_outline" class="float-right" v-if="unknown" />
               </div>
               <div class="col-12">
                 <small class="float-right state" v-if="alive">{{ $t('alive') }}</small>
                 <small class="float-right state" v-if="dead">{{ $t('in memoriam') }}</small>
+                <small class="float-right state" v-if="unknown">{{ $t('unknown') }}</small>
               </div>
             </div>
           </div>
@@ -34,6 +36,7 @@ export default {
   props: [
     "alive",
     "dead",
+    "unknown",
     "image",
     "route",
     "title",
@@ -69,12 +72,6 @@ export default {
 .name {
   margin: 0;
   font-size: 1.3rem;
-}
-.q-icon {
-  margin: 0 25%;
-}
-.state {
-  margin: 0 30%;
 }
 .icon-block {
   margin-top: 8px;

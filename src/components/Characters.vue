@@ -15,7 +15,9 @@
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-else v-for="character in result" :key="character.id">
         <Card
-          :alive="true"
+          :alive="character.status === 'Alive'"
+          :dead="character.status === 'Dead'"
+          :unknown="character.status === 'unknown'"
           :image="character.image"
           :route="'/characters/' + character.id + '/' + character.name"
           :title="character.name"
@@ -78,8 +80,9 @@ export default {
             results {
               id
               name
-              image,
+              image
               species
+              status
             }
           }
         }
@@ -97,6 +100,7 @@ export default {
         ignoreCache,
         this.result,
         (result) => {
+          console.log(result.result)
           this.result = result.result
           this.page = result.page
           this.pages = result.pages

@@ -1,6 +1,6 @@
 <template>
     <q-toolbar>
-      <q-toolbar-title @click="$router.push('/')"> {{ $t('Rick and Morty') }} </q-toolbar-title>
+      <q-toolbar-title @click="home"> {{ $t('Rick and Morty') }} </q-toolbar-title>
       <q-select v-model="model" :options="options" />
     </q-toolbar>
 </template>
@@ -23,6 +23,15 @@ export default {
           value: "pt-BR"
         }
       ]
+    }
+  },
+  methods: {
+    home() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+      this.$router.push('/')
     }
   },
   watch: {
