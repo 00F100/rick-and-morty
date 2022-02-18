@@ -5,6 +5,7 @@ import i18n from './plugins/i18n'
 import store from "./plugins/store"
 import router from "./plugins/router"
 import graphql from "./plugins/graphql"
+import repository from "./plugins/repository"
 
 import "@quasar/extras/material-icons/material-icons.css";
 import "./styles/quasar.sass";
@@ -18,4 +19,5 @@ createApp(App)
   .use(store)
   .use(router)
   .use(graphql)
+  .use(repository)
   .mount("#app");

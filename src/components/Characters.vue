@@ -52,7 +52,7 @@ export default {
     }
   },
   beforeCreate() {
-    if (this.$store.state.paginate) {
+    if (this.$store.state.paginate && this.$store.state.paginate.location === "characters") {
       this.page = this.$store.state.paginate.page
       this.pages = this.$store.state.paginate.pages
     }
@@ -68,16 +68,8 @@ export default {
       this.updateData(true, true)
     },
     updateData(ignoreCache = false, aggregate = false) {
-      const cache = this.$store.state.characters
-      if (!ignoreCache && cache.result && cache.result.length > 0) {
-        this.result = cache.result
-        this.page = cache.page
-        this.pages = cache.pages
-        this.loading = false
-        return
-      }
-
-      const CHARACTERS_QUERY = gql`
+      
+      const query = gql`
         query Characters($page: Int, $filter: String) {
           characters(page: $page, filter: { name: $filter }) {
             info {
@@ -93,33 +85,25 @@ export default {
         }
       `
 
-      this.$graphql(CHARACTERS_QUERY, {
-        page: this.page,
-        filter: this.filter
-      }, (result) => {
-        if (result.data) {
-          if (aggregate) {
-            this.result = [ ... this.result, ... result.data.characters.results]
-          } else {
-            this.result = result.data.characters.results
-          }
-          this.pages = result.data.characters.info.pages || 1
-          this.$store.commit("cacheCaracter", {
-            result: this.result,
-            page: this.page,
-            pages: this.pages
-          })
-          this.$store.commit("paginate", {
-            page: this.page,
-            pages: this.pages
-          })
-          this.loading = false
-          this.disabled = false
-        } else {
-          this.result = null
-          this.loading = false
+      this.$repository(
+        query,
+        this.page,
+        this.pages,
+        this.loading,
+        aggregate,
+        this.filter,
+        "characters",
+        this.disabled,
+        ignoreCache,
+        this.result,
+        (result) => {
+          this.result = result.result
+          this.page = result.page
+          this.pages = result.pages
+          this.disabled = result.disabled
+          this.loading = result.loading
         }
-      });
+      )
     }
   },
   watch: {

@@ -7,8 +7,7 @@ export default createStore({
     current: null,
     filter: null,
     paginate: null,
-    characters: [],
-    episodes: []
+    cache: null
   },
   mutations: {
     changePage(state, payload) {
@@ -19,11 +18,8 @@ export default createStore({
     loading(state, active) {
       state.loading = active
     },
-    cacheCaracter(state, data) {
-      state.characters = data
-    },
-    cacheEpisode(state, data) {
-      state.episodes = data
+    cache(state, data) {
+      state.cache = data
     },
     paginate(state, paginate) {
       state.paginate = paginate
