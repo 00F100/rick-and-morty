@@ -59,6 +59,8 @@ export default {
     this.filter = null
     if (this.$store.state.filter && this.$store.state.filter.location === "episodes") {
       this.filter = this.$store.state.filter.filter
+    } else {
+      this.filter = null
     }
     this.updateData()
   },
