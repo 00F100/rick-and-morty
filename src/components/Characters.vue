@@ -6,11 +6,11 @@
     </div>
     <div class="row"> 
       <div class="col">
-        <Filter :text_search="filter" />
+        <Filter :text_search="filter" location="characters" />
       </div>
     </div>
     <div class="row" v-if="!loading">
-      <div class="col result-empty" v-if="!result">
+      <div class="col result-empty" v-if="!result || result.length === 0">
         <h5>{{ $t('Result empty') }}</h5>
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12" v-else v-for="character in result" :key="character.id">
@@ -34,7 +34,6 @@
 import ButtonBackToList from "./ButtonBackToList.vue"
 import Filter from "./Filter.vue"
 import Card from "./Card.vue"
-import gql from "graphql-tag"
 
 export default {
   name: "Characters",
@@ -60,7 +59,10 @@ export default {
     }
   },
   beforeMount() {
-    this.filter = this.$store.state.filter
+    this.filter = null
+    if (this.$store.state.filter && this.$store.state.filter.location === "characters") {
+      this.filter = this.$store.state.filter.filter
+    }
     this.updateData()
   },
   methods: {
@@ -70,44 +72,29 @@ export default {
       this.updateData(true, true)
     },
     updateData(ignoreCache = false, aggregate = false) {
-      
-      const query = gql`
-        query Characters($page: Int, $filter: String) {
-          characters(page: $page, filter: { name: $filter }) {
-            info {
-              pages
-            }
-            results {
-              id
-              name
-              image
-              species
-              status
-            }
-          }
-        }
-      `
 
-      this.$repository(
-        query,
-        this.page,
-        this.pages,
-        this.loading,
-        aggregate,
-        this.filter,
-        "characters",
-        this.disabled,
-        ignoreCache,
-        this.result,
-        (result) => {
-          console.log(result.result)
-          this.result = result.result
-          this.page = result.page
-          this.pages = result.pages
-          this.disabled = result.disabled
-          this.loading = result.loading
-        }
-      )
+      this
+        .getRepository(ignoreCache)
+        .getCharacters(
+          aggregate,
+          this.filter
+        )
+    },
+    getRepository(ignoreCache = false) {
+      return this
+        .$repository(
+          this.page,
+          "characters",
+          ignoreCache,
+          this.result,
+          (result) => {
+            this.result = result.result
+            this.page = result.page
+            this.pages = result.pages
+            this.disabled = false
+            this.loading = false
+          }
+        )
     }
   },
   watch: {
@@ -115,10 +102,12 @@ export default {
       this.$store.commit("loading", this.loading)
     },
     '$store.state.filter'() {
-      this.filter = this.$store.state.filter
-      this.loading = true
-      this.page = 1
-      this.updateData(true, false)
+      if (this.filter !== this.$store.state.filter.filter) {
+        this.filter = this.$store.state.filter.filter
+        this.loading = true
+        this.page = 1
+        this.updateData(true, false)
+      }
     },
   }
 };

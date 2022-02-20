@@ -1,9 +1,10 @@
   import { ApolloClient, InMemoryCache } from "@apollo/client/core"
   
+  let counter = 0
+  
   export default {
   install: (app: any, options: any) => {
 
-    let counter = 0
     const limit = +process.env.VUE_APP_GRAPHQL_RETRY_LIMIT || 5
 
     const cache = new InMemoryCache()

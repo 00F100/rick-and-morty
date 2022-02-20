@@ -10,7 +10,8 @@
 export default {
   name: "Filter",
   props: [
-    "text_search"
+    "text_search",
+    "location"
   ],
   data() {
     return {
@@ -29,7 +30,10 @@ export default {
         clearTimeout(this.timeout)
       }
       this.timeout = setTimeout(() => {
-        this.$store.commit("filter", this.filter)
+        this.$store.commit("filter", {
+          filter: this.filter,
+          location: this.location
+        })
       }, +process.env.VUE_APP_TIMEOUT_FILTER)
     }
   }

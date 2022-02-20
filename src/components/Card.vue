@@ -7,11 +7,11 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-9">
+          <div class="col">
             <p class="name">{{ title }}</p>
             <small>{{ description }}</small>
           </div>
-          <div class="col-3 icon-block">
+          <div class="col-3 icon-block" v-if="alive || dead || unknown">
             <div class="row">
               <div class="col-12">
                 <q-icon name="emoji_people" class="float-right" v-if="alive" />
