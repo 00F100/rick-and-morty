@@ -1,8 +1,14 @@
 # Rick and Morty API consume
 
+This project consumes GraphQL data for Vue.js examples.
+
+[Live Demonstration](https://00f100.github.io/)
+
 ## Pre requisites
 
-This project uses [Docker](https://docs.docker.com/engine/install/ubuntu/), [Post-installation steps Docker](https://docs.docker.com/engine/install/linux-postinstall/) and [Docker compose](https://docs.docker.com/compose/install/). Install this dependencies before start develop.
+This project uses [Docker](https://docs.docker.com/engine/install/ubuntu/), [Post-installation steps Docker](https://docs.docker.com/engine/install/linux-postinstall/) and [Docker compose](https://docs.docker.com/compose/install/).
+
+> Install this dependencies before start develop.
 
 ## Project setup
 ```
