@@ -21,6 +21,10 @@ export default {
         {
           label: "Português",
           value: "pt-BR"
+        },
+        {
+          label: "Español",
+          value: "es"
         }
       ]
     }

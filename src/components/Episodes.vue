@@ -17,7 +17,7 @@
         <EpisodeCard
           :episode="episode.episode"
           :route="'/episodes/' + episode.episode"
-          :title="$t('episode-name', { identify: episode.episode, name: $t(episode.name) })"
+          :title="$t('episode-name', { identify: episode.episode, name: episode.name })"
           :description="episode.air_date" />
       </div>
     </div>

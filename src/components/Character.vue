@@ -7,10 +7,10 @@
         <img :src="result.image" />
         <h3>{{ result.name }}</h3>
         <ul>
-            <li v-if="result.species !== ''">{{ $t('species', { species: result.species }) }}</li>
-            <li v-if="result.gender !== ''">{{ $t('gender', { gender: result.gender }) }}</li>
-            <li v-if="result.origin && result.origin.name !== ''">{{ $t('origin', { origin: result.origin.name }) }}</li>
-            <li v-if="result.location && result.location.name !== ''">{{ $t('location', { location: result.location.name }) }}</li>
+            <li v-if="result.species !== ''">{{ $t('species', { species: $t(result.species) }) }}</li>
+            <li v-if="result.gender !== ''">{{ $t('gender', { gender: $t(result.gender) }) }}</li>
+            <li v-if="result.origin && result.origin.name !== ''">{{ $t('origin', { origin: $t(result.origin.name) }) }}</li>
+            <li v-if="result.location && result.location.name !== ''">{{ $t('location', { location: $t(result.location.name) }) }}</li>
         </ul>
       </div>
       <div class="col-md-6 col-sm-6 col-xs-12 episodes">
