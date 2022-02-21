@@ -6,9 +6,13 @@ import Episode from "../components/Episode.vue"
 
 const routes = [
   { path: '/', redirect: '/characters' },
+  // List all characters
   { path: '/characters', component: Characters },
+  // Get one character by id + name
   { path: '/characters/:id/:name', component: Character },
+  // get all episodes
   { path: '/episodes', component: Episodes },
+  // get episode by episode tag
   { path: '/episodes/:episode', component: Episode },
 ]
 

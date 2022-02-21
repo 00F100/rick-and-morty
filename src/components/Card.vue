@@ -41,15 +41,7 @@ export default {
     "route",
     "title",
     "description",
-  ],
-  methods: {
-    getImage(index) {
-      if(+index < 10) {
-        index = "0" + index
-      }
-      return "https://videovak.com/jpg/1178x662/rick_and_morty_s01e" + index + ".jpg"
-    }
-  },
+  ]
 };
 </script>
 
@@ -76,14 +68,4 @@ export default {
 .icon-block {
   margin-top: 8px;
 }
-// @media (max-width: $breakpoint-xs-max) {
-//   .character-card {
-//     height: 400px;
-//   }
-// }
-// @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-sm-max) {
-//   .character-card {
-//     height: 350px;
-//   }
-// }
 </style>

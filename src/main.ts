@@ -1,4 +1,4 @@
-import { createApp, provide, h } from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
 import { Quasar } from "quasar";
 import i18n from './plugins/i18n'

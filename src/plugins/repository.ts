@@ -141,7 +141,6 @@
          *
          * @param aggregate Aggregate result with current data
          * @param filter Filter data
-         * @returns 
          */
         getCharacters(
           aggregate: boolean,
@@ -212,7 +211,6 @@
          * 
          * @param aggregate 
          * @param filter 
-         * @returns 
          */
         getEpisodes(
           aggregate: boolean,
@@ -250,6 +248,10 @@
           execute(query, aggregate, filter, callback)  
         },
 
+        /**
+         * Method for get episode from GraphQL
+         * @param episode 
+         */
         getEpisode(episode: string) {
           const query = gql`
             query Episodes($filter: String) {
