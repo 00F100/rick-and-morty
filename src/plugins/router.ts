@@ -9,7 +9,7 @@ const routes = [
   { path: '/characters', component: Characters },
   { path: '/characters/:id/:name', component: Character },
   { path: '/episodes', component: Episodes },
-  { path: '/episodes/:id', component: Episode },
+  { path: '/episodes/:episode', component: Episode },
 ]
 
 export default createRouter({

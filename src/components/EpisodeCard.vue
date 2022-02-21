@@ -36,12 +36,16 @@ export default {
   },
   methods: {
     checkImage() {
-      const imageUrl = "https://videovak.com/jpg/1178x662/rick_and_morty_" + String(this.episode).toLowerCase() + ".jpg"
-      imageExists(imageUrl, (exists) => {
-        if (exists) {
-          this.imageUrl = imageUrl
-        }
-      })
+      try {
+        const imageUrl = "https://videovak.com/jpg/1178x662/rick_and_morty_" + String(this.episode).toLowerCase() + ".jpg"
+        imageExists(imageUrl, (exists) => {
+          if (exists) {
+            this.imageUrl = imageUrl
+          }
+        })
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 };

@@ -79,7 +79,8 @@
             page: number,
             pages: number
           }
-        ) => void
+        ) => void,
+        cache = true
       ) => {
 
         /**
@@ -109,18 +110,24 @@
               _result.result = result.data[location].results
             }
             _result.page = page
-            _result.pages = result.data[location].info.pages || 1
-            vue.$store.commit("cache", {
-              location,
-              result: _result.result,
-              page: page,
-              pages: _result.pages
-            })
-            vue.$store.commit("paginate", {
-              page: page,
-              pages: _result.pages,
-              location
-            })
+            if (result.data[location].info) {
+              _result.pages = result.data[location].info.pages || 1
+            } else {
+              _result.pages = 1
+            }
+            if (cache) {
+              vue.$store.commit("cache", {
+                location,
+                result: _result.result,
+                page: page,
+                pages: _result.pages
+              })
+              vue.$store.commit("paginate", {
+                page: page,
+                pages: _result.pages,
+                location
+              })
+            }
           } else {
             _result.result = []
           }
@@ -167,6 +174,40 @@
         },
 
         /**
+         * Method for get one character by name
+         *
+         * @param name Name of character
+         */
+        getCharacter(name: string) {
+          const query = gql`
+            query Characters($filter: String) {
+              characters(filter: { name: $filter }) {
+                results {
+                  id
+                  name
+                  image
+                  species
+                  gender
+                  origin {
+                    name
+                  }
+                  location {
+                    name
+                  }
+                  episode {
+                    name
+                    episode
+                    air_date
+                  }
+                }
+              }
+            }
+          `
+
+          execute(query, false, name, callback, false)
+        },
+
+        /**
          * Method for get episodes from GraphQL
          * 
          * @param aggregate 
@@ -207,6 +248,33 @@
           `
 
           execute(query, aggregate, filter, callback)  
+        },
+
+        getEpisode(episode: string) {
+          const query = gql`
+            query Episodes($filter: String) {
+              episodes(filter: { episode: $filter }) {
+                info {
+                  pages
+                }
+                results {
+                  id
+                  name
+                  air_date
+                  episode
+                  characters {
+                    id
+                    name
+                    image
+                    species
+                    status
+                  }
+                }
+              }
+            }
+          `
+
+          execute(query, false, episode, callback, false)
         }
       }
     }

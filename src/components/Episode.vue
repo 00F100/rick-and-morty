@@ -4,23 +4,25 @@
     <div class="row justify-center">
       <div class="col-md-6 col-sm-6 col-xs-12 image-block">
         <h4>{{ $t('Episode information') }}</h4>
-        <img src="https://videovak.com/jpg/1178x662/rick_and_morty_s01e01.jpg">
-        <h3>{{ $t('Pilot') }}</h3>
+        <img :src="imageUrl">
+        <h3>{{ $t(result.name) }}</h3>
         <ul>
-            <li>{{ $t('episode-name', { identify: 'S01E01', name: $t('Pilot') }) }}</li>
+            <li>{{ $t('episode-name', { identify: result.episode, name: $t(result.name) }) }}</li>
             <li>{{ $t('episode-date', { month: $t('December'), day: '2', year: '2013' }) }}</li>
         </ul>
       </div>
       <div class="col-md-6 col-sm-6 col-xs-12 characters">
         <h4>{{ $t('Characters') }}</h4>
         <div class="row">
-          <div class="col-lg-4 col-md-6 col-xs-12" v-for="index in 20" :key="index">
+          <div class="col-lg-4 col-md-6 col-xs-12" v-for="character in result.characters" :key="character.id">
             <Card
-                :alive="true"
-                image="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-                :route="'/characters/' + index"
-                :title="$t('Rick Sanchez')"
-                :description="$t('Human - Earth (C-137)')" />
+              :alive="character.status === 'Alive'"
+              :dead="character.status === 'Dead'"
+              :unknown="character.status === 'unknown'"
+              :image="character.image"
+              :route="'/characters/' + character.id + '/' + character.name"
+              :title="character.name"
+              :description="$t(character.species)" />
           </div>
         </div>
       </div>
@@ -32,12 +34,77 @@
 
 import ButtonBackToList from "./ButtonBackToList.vue"
 import Card from "./Card.vue"
+import * as imageExists from "image-exists"
 
 export default {
   name: "Episode",
   components: {
     ButtonBackToList,
     Card
+  },
+  data() {
+    return {
+      loading: true,
+      imageUrl: "https://via.placeholder.com/248x140",
+      result: {
+        name: "",
+        episode: "",
+        image: "",
+        air_date: "",
+        characters: [
+          {
+            id: "",
+            image: "",
+            name: "",
+            state: "",
+            species: ""
+          }
+        ]
+      }
+    }
+  },
+  created() {
+    this.updateData()
+  },
+  methods: {
+    checkImage() {
+      const imageUrl = "https://videovak.com/jpg/1178x662/rick_and_morty_" + String(this.result.episode).toLowerCase() + ".jpg"
+      imageExists(imageUrl, (exists) => {
+        if (exists) {
+          this.imageUrl = imageUrl
+        }
+      })
+    },
+    updateData() {
+
+      this
+        .getRepository()
+        .getEpisode(this.$route.params.episode)
+    },
+    getRepository() {
+      return this
+        .$repository(
+          1,
+          "episodes",
+          null,
+          [],
+          (result) => {
+            if (result.result.length > 0) {
+              const item = result.result.find(x => x.episode === this.$route.params.episode)
+              this.result = item
+              this.checkImage()
+              this.loading = false
+            } else {
+              this.$router.push('/episodes')
+            }
+          }
+        )
+    }
+  },
+  watch: {
+    loading() {
+      this.$store.commit("loading", this.loading)
+    }
   }
 };
 </script>

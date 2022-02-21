@@ -1,7 +1,5 @@
   import { ApolloClient, InMemoryCache } from "@apollo/client/core"
   
-  let counter = 0
-  
   export default {
   install: (app: any, options: any) => {
 
@@ -14,13 +12,12 @@
       uri: process.env.VUE_APP_GRAPHQL_API,
     })
 
-    const apply = (query: any, variables: any, callback: (result: any) => void) => {
+    const apply = (query: any, variables: any, callback: (result: any) => void, counter = 0) => {
       apolloClient.query({
         query,
         variables
       })
       .then(result => {
-        counter = 0
         callback(result)
       })
       .catch((e: any) => {
@@ -28,7 +25,7 @@
         if (counter < limit) {
           console.log("GraphQL retry...")
           counter += 1
-          apply(query, variables, callback)
+          apply(query, variables, callback, counter)
         } else {
           counter = 0
           callback([])

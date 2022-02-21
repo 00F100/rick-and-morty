@@ -58,7 +58,7 @@ export default {
 .character-card {
   cursor: pointer;
   margin: 10px;
-  min-height: 320px;
+  min-height: 255px;
 }
 .image-block {
   text-align: center;
